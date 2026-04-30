@@ -1,0 +1,9 @@
+# dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# extracted zip subfolder (files promoted to repo root)
+lamb-insurance/
