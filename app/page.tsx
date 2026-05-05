@@ -109,7 +109,6 @@ function Header() {
     { href: "#home", label: "Home" },
     { href: "#services", label: "Services" },
     { href: "#why-us", label: "Why Us" },
-    { href: "#condo-faq", label: "Condo FAQ" },
     { href: "#contact", label: "Get a Quote" },
   ];
 
@@ -138,7 +137,7 @@ function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
-          {navLinks.slice(0, 4).map((l) => (
+          {navLinks.slice(0, 3).map((l) => (
             <a
               key={l.href}
               href={l.href}
