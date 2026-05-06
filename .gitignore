@@ -7,3 +7,6 @@ out/
 
 # extracted zip subfolder (files promoted to repo root)
 lamb-insurance/
+
+# TypeScript build cache
+tsconfig.tsbuildinfo
