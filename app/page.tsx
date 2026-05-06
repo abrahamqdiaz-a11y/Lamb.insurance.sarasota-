@@ -569,6 +569,7 @@ function CondoFAQ() {
 // ── Contact Form ───────────────────────────────────────────
 function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const [insuranceType, setInsuranceType] = useState("");
   const [loading, setLoading] = useState(false);
   const [tcpaConsent, setTcpaConsent] = useState(false);
@@ -584,6 +585,7 @@ function ContactForm() {
       return;
     }
     setTcpaError(false);
+    setSubmitError(false);
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
@@ -595,16 +597,17 @@ function ContactForm() {
     });
 
     try {
-      await fetch("/", {
+      const res = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encoded.toString(),
       });
+      if (!res.ok) throw new Error("Network response was not ok");
       setSubmitted(true);
       setTcpaConsent(false);
       formRef.current?.reset();
     } catch {
-      setSubmitted(true);
+      setSubmitError(true);
     } finally {
       setLoading(false);
     }
@@ -724,7 +727,6 @@ function ContactForm() {
                   netlify-honeypot="bot-field"
                   onSubmit={handleSubmit}
                   aria-label="Quote request form"
-                  noValidate
                 >
                   {/* Netlify hidden fields */}
                   <input type="hidden" name="form-name" value="quote-request" />
@@ -834,7 +836,7 @@ function ContactForm() {
                     </div>
 
                     {/* Vehicle fields — shown for Auto */}
-                    {(insuranceType === "Auto" || insuranceType === "") && (
+                    {insuranceType === "Auto" && (
                       <>
                         <div>
                           <label htmlFor="vehicle-year-make-model" className={labelClass}>
@@ -888,44 +890,8 @@ function ContactForm() {
                     </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary mt-7 w-full py-4 rounded-lg font-semibold font-body text-base flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                    aria-live="polite"
-                  >
-                    {loading ? (
-                      <>
-                        <svg
-                          className="animate-spin h-4 w-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          aria-hidden="true"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          />
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8v8z"
-                          />
-                        </svg>
-                        Sending…
-                      </>
-                    ) : (
-                      "Submit My Quote Request →"
-                    )}
-                  </button>
-
                   {/* TCPA Consent Checkbox */}
-                  <div className={`mt-6 p-4 rounded-xl border-2 transition-colors ${tcpaError ? "border-red-400 bg-red-50" : "border-navy-100 bg-navy-50/50"}`}>
+                  <div className={`mt-7 p-4 rounded-xl border-2 transition-colors ${tcpaError ? "border-red-400 bg-red-50" : "border-navy-100 bg-navy-50/50"}`}>
                     <label
                       htmlFor="tcpa-consent"
                       className="flex items-start gap-3 cursor-pointer group"
@@ -987,6 +953,49 @@ function ContactForm() {
                       </p>
                     )}
                   </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="btn-primary mt-5 w-full py-4 rounded-lg font-semibold font-body text-base flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    aria-live="polite"
+                  >
+                    {loading ? (
+                      <>
+                        <svg
+                          className="animate-spin h-4 w-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8z"
+                          />
+                        </svg>
+                        Sending…
+                      </>
+                    ) : (
+                      "Submit My Quote Request →"
+                    )}
+                  </button>
+
+                  {submitError && (
+                    <p className="mt-4 text-sm text-red-600 font-body font-semibold text-center" role="alert" aria-live="polite">
+                      Something went wrong. Please try again or call us directly at{" "}
+                      <a href={PHONE_MAIN_TEL} className="underline">{PHONE_MAIN}</a>.
+                    </p>
+                  )}
                 </form>
               )}
             </div>
