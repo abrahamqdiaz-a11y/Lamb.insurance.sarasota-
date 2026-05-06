@@ -37,6 +37,37 @@ const SERVICES = [
   },
 ];
 
+const CONDO_FAQ = [
+  {
+    q: "How much does it cost to insure a condo in Florida?",
+    a: "A Florida condo (HO-6) policy typically runs $800–$2,000+ per year, depending on your unit's location, the building's age, your personal property value, and chosen coverage limits. Sarasota coastal condos may sit at the higher end due to hurricane exposure. The condo association's master policy covers the building shell, but your individual unit policy fills the gaps — and pricing varies widely by carrier, which is why comparing quotes matters.",
+  },
+  {
+    q: "What insurance is required for a condo in Florida?",
+    a: "Florida law requires condo associations to carry a master policy covering the building structure and common areas. Individual owners are typically required by their HOA to carry an HO-6 policy that covers interior fixtures, personal property, and personal liability. If your condo sits in a FEMA Special Flood Hazard Area (SFHA), flood insurance is also required as a condition of any federally backed mortgage.",
+  },
+  {
+    q: "What insurance companies cover condos in Florida?",
+    a: "Several carriers write condo policies in Florida — including Citizens Property Insurance (the state-backed insurer of last resort), Progressive, Travelers, American Family, and Liberty Mutual. Availability and rates vary by zip code and building type. As an independent agency, Lamb Insurance shops multiple carriers on your behalf to find the coverage that fits your Sarasota condo and your budget.",
+  },
+  {
+    q: "Why is condo insurance so expensive in Florida?",
+    a: "Florida's hurricane exposure, flooding risk, and complex condo association structures all push premiums higher than the national average. Unlike a single-family home, a condo policy must account for the entire building's shared risk — meaning one claim anywhere in the complex can affect everyone's rates. Post-Surfside building inspection requirements and tightening reinsurance markets have added additional upward pressure on premiums since 2022.",
+  },
+  {
+    q: "Do condo owners in Florida need flood insurance?",
+    a: "Flood damage is excluded from standard HO-6 policies. If your condo is in a FEMA-designated Special Flood Hazard Area, flood coverage is legally required for any federally backed mortgage. Even outside those zones, Florida's flat terrain and hurricane season make separate flood coverage a smart investment. Your association's master policy generally covers the building exterior — but the interior of your unit and your belongings typically need their own flood policy.",
+  },
+  {
+    q: "What is the new condo law in Florida for 2026?",
+    a: "Effective January 1, 2026, Florida lowered the unit threshold requiring a condo association to maintain a public website — from 150 units down to 25. Associations now must post key documents online, including budgets, meeting minutes, and insurance disclosures. This change means more Sarasota condo buyers and owners can easily review their association's coverage before purchasing or renewing their own policy.",
+  },
+  {
+    q: "Who offers the best condo insurance in Sarasota, FL?",
+    a: "There's no single \"best\" carrier — the right choice depends on your building type, coverage needs, deductible preference, and budget. Top-rated options in Florida include Progressive, Travelers, American Family, and Liberty Mutual, but rates and availability vary by location. The best way to find competitive coverage in Sarasota is to work with a local independent agent who can compare multiple carriers at once. That's exactly what we do at Lamb Insurance — call or fill out the form below for a free comparison.",
+  },
+];
+
 const WHY_US = [
   "We review your policies with you so you actually understand your coverage",
   "Personalized service — not one-size-fits-all",
@@ -435,6 +466,100 @@ function WhyUs() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Condo Insurance FAQ ────────────────────────────────────
+function CondoFAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
+
+  return (
+    <section
+      id="condo-faq"
+      className="bg-cream py-20 md:py-28"
+      aria-labelledby="faq-heading"
+    >
+      <div className="max-w-4xl mx-auto px-5">
+        <div className="mb-12 animate-on-scroll">
+          <div className="section-rule" />
+          <h2
+            id="faq-heading"
+            className="font-display text-3xl md:text-4xl font-bold text-navy-800 mb-4 leading-tight"
+          >
+            Condo Insurance in Florida —{" "}
+            <span className="text-sage-600">Common Questions</span>
+          </h2>
+          <p className="text-navy-600 font-body text-base leading-relaxed max-w-2xl">
+            Sarasota condo owners ask these questions every day. Here are straight answers — and
+            if yours isn&#39;t here, just give us a call.
+          </p>
+        </div>
+
+        <dl className="space-y-3">
+          {CONDO_FAQ.map((item, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={i}
+                className="bg-white rounded-2xl border border-navy-100 overflow-hidden animate-on-scroll"
+              >
+                <dt>
+                  <button
+                    onClick={() => toggle(i)}
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-answer-${i}`}
+                    className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-400 focus-visible:ring-inset"
+                  >
+                    <span className="font-display text-base md:text-lg font-semibold text-navy-800 group-hover:text-sage-700 transition-colors leading-snug">
+                      {item.q}
+                    </span>
+                    <span
+                      className={`flex-shrink-0 w-8 h-8 rounded-full border-2 border-navy-200 flex items-center justify-center transition-all duration-200 ${
+                        isOpen ? "bg-sage-600 border-sage-600 rotate-180" : "group-hover:border-sage-400"
+                      }`}
+                      aria-hidden="true"
+                    >
+                      <svg
+                        className={`w-4 h-4 transition-colors ${isOpen ? "text-white" : "text-navy-400"}`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2.5}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </button>
+                </dt>
+                <dd
+                  id={`faq-answer-${i}`}
+                  hidden={!isOpen}
+                  className="px-6 pb-6"
+                >
+                  <p className="text-navy-600 font-body text-sm md:text-base leading-relaxed border-t border-navy-50 pt-4">
+                    {item.a}
+                  </p>
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+
+        <div className="mt-10 text-center animate-on-scroll">
+          <p className="text-navy-500 font-body text-sm mb-4">
+            Have a question we didn&#39;t cover? We&#39;re a quick call away.
+          </p>
+          <a
+            href="#contact"
+            className="btn-primary inline-block px-7 py-3.5 rounded-lg font-semibold font-body text-base"
+          >
+            Get a Free Condo Insurance Quote
+          </a>
         </div>
       </div>
     </section>
@@ -1005,6 +1130,7 @@ export default function Home() {
         <Hero />
         <Services />
         <WhyUs />
+        <CondoFAQ />
         <ContactForm />
       </main>
       <Footer />
