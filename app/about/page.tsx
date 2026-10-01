@@ -11,39 +11,62 @@ export const metadata: Metadata = {
 const PHONE_MAIN = "941.225.2335";
 const PHONE_MAIN_TEL = "tel:+19412252335";
 
-const TEAM = [
+type TeamMember = {
+  name: string;
+  role: string;
+  photo: string;
+  highlights: string[];
+  summary: string;
+  bio: string[];
+};
+
+const TEAM: TeamMember[] = [
+  {
+    name: "Cody Lamb",
+    role: "Licensed Insurance Agent",
+    photo: "/team/cody-lamb.jpg",
+    highlights: ["Sarasota, FL"],
+    summary:
+      "I want every client who walks through our door to feel like they’re working with a neighbor — not a call center.",
+    bio: [
+      "My goal is to make insurance simple: listen first, explain your options in plain language, and help you find coverage that fits your life and your budget.",
+    ],
+  },
   {
     name: "Latoya",
     role: "Licensed Insurance Agent",
     photo: "/team/latoya.jpg",
-    quote: "Insurance is about much more than policies and premiums — it’s about people, families, and community.",
-    highlights: ["15 years of experience", "Family & community focused"],
+    highlights: ["15 years of experience", "Family focused"],
+    summary:
+      "Insurance is about much more than policies and premiums — it’s about people, families, and community.",
     bio: [
-      "With 15 years of experience as a Licensed Insurance Agent, Latoya has helped countless families find meaningful savings while making sure they have the protection they need when life happens.",
-      "What she values most is building lasting relationships and being someone her clients can trust with important decisions. She approaches every conversation with honesty, integrity, and genuine care — listening first, explaining coverage in plain language, and making sure each client feels confident about what they have in place.",
-      "For Latoya, being an agent is about serving her community, protecting what matters most, and building relationships that last.",
+      "With 15 years of experience as a Licensed Insurance Agent, I have had the privilege of helping countless families find meaningful savings while making sure they have the protection they need when life happens.",
+      "What I value most is building lasting relationships with my clients and being someone they can trust when making important decisions about their insurance. I approach my work with honesty, integrity, and genuine care — listening to each client’s needs, providing guidance they can understand, and helping them feel confident about the coverage they have in place.",
+      "For me, being an insurance agent is about serving my community, protecting what matters most, and building relationships that last.",
     ],
   },
   {
     name: "Josh",
     role: "Licensed Insurance Agent",
     photo: "/team/josh.jpg",
-    quote: "I treat every client the way I’d want to be treated.",
-    highlights: ["5+ years of experience", "Hablamos Español", "Hundreds of clients helped"],
+    highlights: ["5+ years of experience", "Hablamos Español"],
+    summary:
+      "Guided by the Golden Rule, I treat every client the way I’d want to be treated.",
     bio: [
-      "With over five years in the insurance industry, Josh’s passion is simple: serving people with honesty, clarity, and genuine care.",
-      "Guided by the Golden Rule, he’s dedicated to helping families and individuals find the right coverage at a price that fits their budget. Having assisted hundreds of clients in both English and Spanish, Josh takes pride in making insurance straightforward, stress-free, and tailored to what matters most to you.",
+      "With over five years of experience in the insurance industry, my passion is simple: serving people with honesty, clarity, and genuine care.",
+      "I’m dedicated to helping families and individuals find the right coverage at a price that fits their budget. Having assisted hundreds of clients in both English and Spanish, I take pride in making insurance straightforward, stress-free, and tailored to what matters most to you.",
     ],
   },
   {
     name: "Allana",
     role: "Licensed Insurance Agent",
     photo: "/team/allana.jpg",
-    quote: "My goal is to make the process easy and help every client feel taken care of.",
-    highlights: ["Licensed in Florida & Georgia", "Helping clients since 2023"],
+    highlights: ["Licensed in FL & GA", "Since 2023"],
+    summary:
+      "My goal is to make the process easy and help every client feel protected and taken care of.",
     bio: [
-      "Since 2023, Allana has enjoyed helping people navigate their insurance options and find coverage that truly works for them.",
-      "As a licensed agent in both Florida and Georgia, her goal is to make the process easy, answer every question along the way, and help each client feel protected and taken care of.",
+      "Since 2023, I’ve enjoyed helping people navigate their insurance options and find coverage that works for them.",
+      "As a licensed agent in Florida and Georgia, I make it a priority to answer every question along the way, so you always know what you’re getting.",
     ],
   },
 ];
@@ -152,65 +175,63 @@ export default function About() {
               </p>
             </div>
 
-            <div className="space-y-10 md:space-y-14">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
               {TEAM.map((m, i) => (
                 <article
                   key={m.name}
-                  className="bg-white rounded-3xl border border-navy-100 overflow-hidden shadow-sm grid md:grid-cols-5"
+                  className="bg-white rounded-2xl border border-navy-100 overflow-hidden shadow-sm"
                   aria-labelledby={`member-${i}`}
                 >
-                  {/* Photo */}
-                  <div className={`md:col-span-2 relative ${i % 2 === 1 ? "md:order-2" : ""}`}>
-                    <div className="aspect-[4/5] md:aspect-auto md:h-full md:min-h-[420px] relative bg-navy-100">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={m.photo}
-                        alt={`${m.name}, ${m.role} at Lamb Insurance Agency`}
-                        className="absolute inset-0 w-full h-full object-cover object-top"
-                        loading={i === 0 ? "eager" : "lazy"}
-                      />
-                      <div
-                        className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy-950/70 to-transparent md:hidden"
-                        aria-hidden="true"
-                      />
-                      <p className="absolute bottom-4 left-5 font-display text-2xl font-bold text-white md:hidden" aria-hidden="true">
-                        {m.name}
-                      </p>
-                    </div>
+                  {/* Every photo is the same 4:5 frame, regardless of bio length */}
+                  <div className="aspect-[4/5] relative bg-navy-100 overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={m.photo}
+                      alt={`${m.name}, ${m.role} at Lamb Insurance Agency`}
+                      className="absolute inset-0 w-full h-full object-cover object-top"
+                      loading={i < 2 ? "eager" : "lazy"}
+                    />
                   </div>
 
-                  {/* Bio */}
-                  <div className="md:col-span-3 p-7 md:p-10 lg:p-12 flex flex-col justify-center">
-                    <h3
-                      id={`member-${i}`}
-                      className="sr-only md:not-sr-only font-display text-3xl font-bold text-navy-900"
-                    >
+                  <div className="p-6">
+                    <h3 id={`member-${i}`} className="font-display text-2xl font-bold text-navy-900">
                       {m.name}
                     </h3>
-                    <p className="text-sage-600 text-xs font-body font-bold uppercase tracking-widest mt-1 mb-5">
+                    <p className="text-sage-600 text-xs font-body font-bold uppercase tracking-widest mt-1 mb-4">
                       {m.role}
                     </p>
 
-                    <ul className="flex flex-wrap gap-2 mb-6" aria-label={`${m.name}'s highlights`}>
+                    <ul className="flex flex-wrap content-start gap-1.5 mb-4 sm:min-h-[3.25rem]" aria-label={`${m.name}'s highlights`}>
                       {m.highlights.map((h) => (
                         <li
                           key={h}
-                          className="text-xs font-body font-semibold text-navy-700 bg-sage-50 border border-sage-200 rounded-full px-3 py-1"
+                          className="text-[11px] font-body font-semibold text-navy-700 bg-sage-50 border border-sage-200 rounded-full px-2.5 py-0.5"
                         >
                           {h}
                         </li>
                       ))}
                     </ul>
 
-                    <blockquote className="font-display italic text-lg md:text-xl text-navy-700 leading-snug border-l-4 border-sage-300 pl-4 mb-6">
-                      &ldquo;{m.quote}&rdquo;
-                    </blockquote>
+                    <p className="font-display italic text-navy-700 leading-snug border-l-[3px] border-sage-300 pl-3 mb-5 sm:min-h-[7rem]">
+                      &ldquo;{m.summary}&rdquo;
+                    </p>
 
-                    <div className="space-y-4 text-navy-600 font-body text-sm md:text-base leading-relaxed">
-                      {m.bio.map((p, j) => (
-                        <p key={j}>{p}</p>
-                      ))}
-                    </div>
+                    {/* Full bio tucked away so long and short bios keep cards the same size */}
+                    <details className="group border-t border-navy-100 pt-4">
+                      <summary className="cursor-pointer list-none flex items-center justify-between text-sm font-body font-semibold text-sage-600 hover:text-sage-700 [&::-webkit-details-marker]:hidden">
+                        <span className="group-open:hidden">Read {m.name.split(" ")[0]}&#39;s story</span>
+                        <span className="hidden group-open:inline">Show less</span>
+                        <span className="text-lg leading-none" aria-hidden="true">
+                          <span className="group-open:hidden">+</span>
+                          <span className="hidden group-open:inline">−</span>
+                        </span>
+                      </summary>
+                      <div className="space-y-3 mt-4 text-navy-600 font-body text-sm leading-relaxed">
+                        {m.bio.map((p, j) => (
+                          <p key={j}>{p}</p>
+                        ))}
+                      </div>
+                    </details>
                   </div>
                 </article>
               ))}
