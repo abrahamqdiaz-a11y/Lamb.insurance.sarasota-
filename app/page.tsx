@@ -109,6 +109,7 @@ function Header() {
     { href: "#home", label: "Home" },
     { href: "#services", label: "Services" },
     { href: "#why-us", label: "Why Us" },
+    { href: "/about", label: "About Us" },
     { href: "#contact", label: "Get a Quote" },
   ];
 
@@ -137,7 +138,7 @@ function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
-          {navLinks.slice(0, 3).map((l) => (
+          {navLinks.slice(0, 4).map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -1095,6 +1096,14 @@ function Footer() {
             Legal
           </h3>
           <ul className="space-y-2 font-body text-sm">
+            <li>
+              <Link
+                href="/about"
+                className="text-navy-400 hover:text-navy-200 transition-colors"
+              >
+                About Us
+              </Link>
+            </li>
             <li>
               <Link
                 href="/privacy-policy"
